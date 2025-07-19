@@ -30,10 +30,12 @@ const options = {
     if (userSelectedDate < date) {
       startButton.disabled = true;
       startButton.style.cursor = 'not-allowed';
-      iziToast.show({
+      iziToast.error({
         title: '',
         color: 'red',
         messageSize: '18',
+        icon: false,
+        progressBar: false,
         class: '.iziToast-custom-message',
         position: 'topRight',
         message: `<span class="message-icon">⮾</span>Please choose a date in the future`,
@@ -82,10 +84,12 @@ function reverseCountInterval() {
 
       inputDate.style.cursor = 'pointer';
       startButton.style.cursor = 'pointer';
-      iziToast.show({
+      iziToast.success({
         title: '',
         color: 'green',
         messageSize: '18',
+        icon: false,
+        progressBar: false,
         class: '.iziToast-custom-message',
         position: 'topRight',
         message: `<span class="message-icon message-icon-ok">☑</span>Finished`,

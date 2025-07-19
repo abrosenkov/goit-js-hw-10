@@ -1,7 +1,6 @@
 
 .container {
-    margin: 36px 50px 36px 156px ;
-    /* width: 100%; */
+    margin: 36px auto 36px 150px;
 }
 
 .message-icon {
@@ -106,6 +105,6 @@
 
 @media screen and (max-width: 768px) {
     .container {
-            margin: 150px 10px
+            margin: 150px auto;
         }
 }
