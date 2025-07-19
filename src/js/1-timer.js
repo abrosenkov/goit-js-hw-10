@@ -53,8 +53,18 @@ function convertMs(ms) {
   return { days, hours, minutes, seconds };
 }
 
-console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
-console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
-console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
+startButton.addEventListener('click', reverseCountInterval);
+
+function reverseCountInterval() {
+  const indexInterval = setInterval(() => {
+    const allMs = userSelectedDate - new Date();
+
+    const { days, hours, minutes, seconds } = convertMs(allMs);
+    daysField.textContent = days;
+    hoursField.textContent = hours;
+    minutesField.textContent = minutes;
+    secondsField.textContent = seconds;
+  }, 1000);
+}
 
 flatpickr(input, options);
