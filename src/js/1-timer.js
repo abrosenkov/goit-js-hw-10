@@ -1,8 +1,10 @@
 import flatpickr from 'flatpickr';
-
 import 'flatpickr/dist/flatpickr.min.css';
 
-const input = document.querySelector('#datetime-picker');
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
+
+const inputDate = document.querySelector('#datetime-picker');
 
 const daysField = document.querySelector('[data-days]');
 const hoursField = document.querySelector('[data-hours]');
@@ -11,6 +13,7 @@ const secondsField = document.querySelector('[data-seconds]');
 const startButton = document.querySelector('[type="button"]');
 
 startButton.disabled = true;
+startButton.style.cursor = 'not-allowed';
 
 let userSelectedDate = null;
 
@@ -26,13 +29,25 @@ const options = {
 
     if (userSelectedDate < date) {
       startButton.disabled = true;
-      window.alert('Please choose a date in the future');
+      startButton.style.cursor = 'not-allowed';
+      iziToast.show({
+        title: '',
+        color: 'red',
+        messageSize: '18',
+        class: '.iziToast-custom-message',
+        position: 'topRight',
+        message: `<span class="message-icon">⮾</span>Please choose a date in the future`,
+      });
     } else {
       startButton.disabled = false;
-      console.log(userSelectedDate);
+      startButton.style.cursor = 'pointer';
     }
   },
 };
+
+function addLeadingZero(value) {
+  return String(value).padStart(2, '0');
+}
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
@@ -58,13 +73,37 @@ startButton.addEventListener('click', reverseCountInterval);
 function reverseCountInterval() {
   const indexInterval = setInterval(() => {
     const allMs = userSelectedDate - new Date();
-
     const { days, hours, minutes, seconds } = convertMs(allMs);
-    daysField.textContent = days;
-    hoursField.textContent = hours;
-    minutesField.textContent = minutes;
-    secondsField.textContent = seconds;
+
+    if (allMs <= 0) {
+      clearInterval(indexInterval);
+      inputDate.disabled = false;
+      startButton.disabled = false;
+
+      inputDate.style.cursor = 'pointer';
+      startButton.style.cursor = 'pointer';
+      iziToast.show({
+        title: '',
+        color: 'green',
+        messageSize: '18',
+        class: '.iziToast-custom-message',
+        position: 'topRight',
+        message: `<span class="message-icon message-icon-ok">☑</span>Finished`,
+      });
+      return;
+    }
+
+    daysField.textContent = addLeadingZero(days);
+    hoursField.textContent = addLeadingZero(hours);
+    minutesField.textContent = addLeadingZero(minutes);
+    secondsField.textContent = addLeadingZero(seconds);
   }, 1000);
+
+  inputDate.disabled = true;
+  startButton.disabled = true;
+
+  inputDate.style.cursor = 'not-allowed';
+  startButton.style.cursor = 'not-allowed';
 }
 
-flatpickr(input, options);
+flatpickr(inputDate, options);
