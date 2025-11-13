@@ -1,4 +1,4 @@
-
+import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
 const formData = document.querySelector('.form');
@@ -11,7 +11,7 @@ function getPromise(e) {
   e.preventDefault();
 
   const value = formData.elements.state.value;
-  const delay = Number(inputDelay.value);
+  const delay = inputDelay.value;
 
   const promise = new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -25,10 +25,20 @@ function getPromise(e) {
 
   promise
     .then(res => {
-      
+      iziToast.success({
+        icon: false,
+        message: `✅ Fulfilled promise in ${res}ms`,
+        position: 'topRight',
+        progressBar: false,
+      });
     })
     .catch(error => {
-      
+      iziToast.error({
+        icon: false,
+        message: `❌ Rejected promise in ${error}ms`,
+        position: 'topRight',
+        progressBar: false,
+      });
     });
   formData.reset();
 }
