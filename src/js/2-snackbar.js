@@ -11,7 +11,7 @@ function getPromise(e) {
   e.preventDefault();
 
   const value = formData.elements.state.value;
-  const delay = inputDelay.value;
+  const delay = Number(inputDelay.value);
 
   const promise = new Promise((resolve, reject) => {
     setTimeout(() => {
